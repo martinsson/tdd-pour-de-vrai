@@ -19,11 +19,9 @@ describe('app', () => {
 
     beforeEach(async () => {
         ({connection, app} = await createApp())
-
     })
 
     it('should ', async () => {
-
         await request(app).put('/toto?myArg=333').expect(200)
     });
 

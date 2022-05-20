@@ -27,3 +27,10 @@ Etapes d'implémentation "petits pas" ou "MVP" :
 
 ## Besoins
 - Avoir un truc fluide pour montrer le front
+
+# TODO / A voir / A creuser
+
+* (Johan ?) : Remplacer MySQL par No-SQL ? Plus simple ? 
+* Faire du mapping entre résultat BDD et JSON renvoyé ?
+* Xavier : Préparer app front 
+* Johan : wallabyjs
