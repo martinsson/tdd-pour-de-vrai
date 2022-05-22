@@ -30,6 +30,7 @@ Etapes d'implémentation "petits pas" ou "MVP" :
 
 # TODO / A voir / A creuser
 
+* Johan ? : corriger primary key
 * (Johan ?) : Remplacer MySQL par No-SQL ? Plus simple ? 
 * Faire du mapping entre résultat BDD et JSON renvoyé ?
 * Xavier : Préparer app front 
