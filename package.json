@@ -1,0 +1,22 @@
+{
+  "name": "tdd-pour-de-vrai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martinsson/tdd-pour-de-vrai.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/martinsson/tdd-pour-de-vrai/issues"
+  },
+  "homepage": "https://github.com/martinsson/tdd-pour-de-vrai#readme",
+  "dependencies": {
+    "prettier": "^2.6.2"
+  }
+}
