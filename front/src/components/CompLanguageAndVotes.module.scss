@@ -1,0 +1,33 @@
+.CompLanguageAndVotes {
+  .Card {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #526282;
+    //height: 80px;
+    padding: 30px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 2.5rem;
+
+    div {
+      text-align: center;
+    }
+
+    .Name {
+      flex-grow: 4;
+    }
+
+    .Votes {
+      flex-grow: 1;
+    }
+
+    .Action {
+      display: flex;
+    }
+  }
+}
