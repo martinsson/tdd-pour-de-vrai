@@ -6,7 +6,7 @@ describe('LanguageLeaderBoard', () => {
 
 
 
-    it('returns existing langauges with votes', async () => {
+    it('returns existing languages with votes', async () => {
         const app = await startApp()
         const result = await request(app).get('/').expect(200)
         expect(result.body).to.deep.equal({

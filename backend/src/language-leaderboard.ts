@@ -23,7 +23,7 @@ export async function startApp() {
     app.put('/vote/:langName', async (req, res) => {
         const languagename = req.params['langName']
         languagesAndVotes.find(l => l.name === languagename)!.votes++
-        // await connetion.execute('')
+        // await connection.execute('')
             res.send({message: "a voté pour " + languagename})
     })
 

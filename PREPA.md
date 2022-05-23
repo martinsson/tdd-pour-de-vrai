@@ -35,3 +35,28 @@ Etapes d'implémentation "petits pas" ou "MVP" :
 * Faire du mapping entre résultat BDD et JSON renvoyé ?
 * Xavier : Préparer app front 
 * Johan : wallabyjs
+* ? : diaporama --> trame dans ce doc
+
+
+## Ce qu'on veut montrer
+* TDD sur qq chose qui ressemble avec une vraie appli
+** Le double boucle TDD
+*** qui devient simplement "Quel est le test dont j'ai besoin pour faire évoluer mon code?"
+** Mock/stub ou simulateurs?
+** hexagone?
+** 
+* Isolation pour testabilité?
+
+
+## Valeurs
+* Faisons les tests qui nous aident
+* les tests doivent _permettre_ le refactoring
+* Il est efficace de tester des interfaces stables
+
+## Comment montrer un interet à tester plus bas niveau?
+Regles métier
+- Pas de vote négatif
+- Pas ajouter un langage qui existe
+- Le meme ip peut pas voter deux fois
+- 
+
