@@ -21,6 +21,8 @@ describe('LanguageLeaderBoard', () => {
     it('returns existing languages with votes', async () => {
         const app = await startApp(mongod)
         await request(app).put('/admin/configureVotes')
+            .send([{name: "java", votes: 3}, {name: "js", votes:15}])
+            .expect(200)
         const result = await request(app).get('/').expect(200)
         expect(result.body).to.deep.equal({
             languages: [{name: "java", votes: 3}, {name: "js", votes:15}]

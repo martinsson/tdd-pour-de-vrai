@@ -13,18 +13,25 @@ class LanguageVote {
 export async function startApp(mongod: MongoMemoryServer) {
     const app = express()
 
+    app.use(express.json())
     const client = new mongoDB.MongoClient(mongod.getUri())
     await client.connect()
     const db = client.db('real-world-tdd')
     const votesCollection = db.collection('votes')
 
-    try {
-        await votesCollection.drop()
-    } catch (e) {
 
-    }
-    await votesCollection.insertOne({name: "java", votes: 3})
-    await votesCollection.insertOne({name: "js", votes: 15})
+    app.put('/admin/configureVotes', async (req, res) => {
+        try {
+            await votesCollection.drop()
+        } catch (e) {
+            console.warn("here")
+        }
+
+        await votesCollection.insertMany(req.body)
+
+        res.send({})
+
+    })
 
     app.get('/', async (req, res) => {
         const languagesAndVotes = (await votesCollection.find().toArray())
