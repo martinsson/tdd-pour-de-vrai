@@ -1,19 +1,34 @@
 import express from "express"
 import mysql from "mysql2/promise"
+import {MongoMemoryServer} from "mongodb-memory-server"
+import * as mongoDB from "mongodb";
 
-export async function startApp() {
+class LanguageVote {
+    constructor(public readonly name: string, public readonly votes: number) {
+
+    }
+
+
+}
+export async function startApp(mongod: MongoMemoryServer) {
     const app = express()
 
-    let connectionOptions = {host: '127.0.0.1', user: 'root', database: 'real_world_tdd', password: 'mysql'}
-    const connection = await mysql.createConnection(connectionOptions)
+    const client = new mongoDB.MongoClient(mongod.getUri())
+    await client.connect()
+    const db = client.db('real-world-tdd')
+    const votesCollection = db.collection('votes')
 
-    const languagesAndVotes = [{name: "java", votes: 3}, {name: "js", votes: 15}]
-    await connection.execute('TRUNCATE TABLE votes')
-    await connection.execute('INSERT INTO votes VALUES ("java", 3)')
-    await connection.execute('INSERT INTO votes VALUES ("js", 15)')
+    try {
+        await votesCollection.drop()
+    } catch (e) {
+
+    }
+    await votesCollection.insertOne({name: "java", votes: 3})
+    await votesCollection.insertOne({name: "js", votes: 15})
 
     app.get('/', async (req, res) => {
-        const [languagesAndVotes, fields] = await connection.query('SELECT * FROM votes')
+        const languagesAndVotes = (await votesCollection.find().toArray())
+            .map(({name, votes}) => new LanguageVote(name, votes))
         console.log(languagesAndVotes)
         res.send({
             languages: languagesAndVotes
@@ -22,8 +37,7 @@ export async function startApp() {
 
     app.put('/vote/:langName', async (req, res) => {
         const languagename = req.params['langName']
-        languagesAndVotes.find(l => l.name === languagename)!.votes++
-        // await connection.execute('')
+        await votesCollection.updateOne({name: languagename}, {$inc: {votes: 1}})
             res.send({message: "a voté pour " + languagename})
     })
 
