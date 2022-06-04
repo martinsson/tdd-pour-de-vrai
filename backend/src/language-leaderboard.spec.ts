@@ -59,5 +59,5 @@ describe('LanguageLeaderBoard', () => {
 
     });
 
-    it('fails when voting for non existing language')
+    // it('fails when voting for non existing language', async() => {})
 });
