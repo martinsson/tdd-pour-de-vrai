@@ -7,7 +7,7 @@
     "build": "npx tsc",
     "start": "ts-node src/index.ts",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require ts-node/register src/*.spec.ts"
   },
   "author": "",
   "license": "ISC",
