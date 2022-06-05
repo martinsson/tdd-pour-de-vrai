@@ -1,12 +1,12 @@
-import {startApp} from "./language-leaderboard"
-import {MongoMemoryServer} from "mongodb-memory-server"
+import { startApp } from "./language-leaderboard";
+import { MongoMemoryServer } from "mongodb-memory-server";
 
 async function start() {
-    const mongod = await MongoMemoryServer.create()
-    const app = await startApp(mongod)
-    app.listen('3000')
+  const mongod = await MongoMemoryServer.create();
+  const app = await startApp(mongod);
+  app.listen("3000");
 
-    console.log(`
+  console.log(`
         go to http://localhost:3000
         
         to vote for cobol:          
@@ -15,7 +15,7 @@ async function start() {
         to get all votes: 
         GET http://localhost:3000
         
-        `)
+        `);
 }
 
-start().catch(e => console.error(e))
+start().catch((e) => console.error(e));
