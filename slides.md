@@ -50,3 +50,14 @@ les tests en plus du code.
 ## Parfois un comportement n'est pas "saisissable" bas niveau
 
 Utilisons des tests plus haut niveau, puis refactorons potentiellement pour que cela soit possible plus bas niveau
+
+
+
+# Demo points saillants
+
+1. on commencer par lister les fonctionnalités
+2. on détaille les cas de chaqu'un
+3. on commence dans le test, à l'intérieur du test. L'application nait de là
+4. Chaque modif se fait tester en qq dixièmes de secondes.  
+5. on extrait une repo
+6. 
