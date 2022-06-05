@@ -1,11 +1,21 @@
 .App {
-    background-color: #282c34;
-    min-height: 100vh;
-    color: white;
-    display: flex;
-    flex-direction: column;
+  background-color: #282c34;
+  min-height: 100vh;
+  color: white;
+  display: flex;
+  flex-direction: column;
 
-    h1 {
-        text-align: center;
+  h1 {
+    text-align: center;
+  }
+
+  .AddSection {
+    justify-content: center;
+    display: flex;
+
+    input {
+      max-width: 300px;
+      margin-right: 10px;
     }
+  }
 }

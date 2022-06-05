@@ -2,6 +2,7 @@ import express from "express";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import * as mongoDB from "mongodb";
 import { MongoClient } from "mongodb";
+import cors from "cors";
 
 class LanguageVote {
   constructor(public readonly name: string, public readonly votes: number) {}
@@ -13,6 +14,7 @@ export async function startApp(mongod: MongoMemoryServer) {
   const app = express();
 
   app.use(express.json());
+  app.use(cors());
   client = new mongoDB.MongoClient(mongod.getUri());
   await client.connect();
   const db = client.db("real-world-tdd");
@@ -47,6 +49,13 @@ export async function startApp(mongod: MongoMemoryServer) {
       { $inc: { votes: 1 } }
     );
     res.send({ message: "a voté pour " + languagename });
+  });
+
+  app.post("/add/:langName", async (req, res) => {
+    const languagename = req.params["langName"];
+    await votesCollection.insertOne({ name: languagename, votes: 0 });
+    console.log("ajouté " + languagename);
+    res.send({ message: "langage ajouté : " + languagename });
   });
 
   return app;

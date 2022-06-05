@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 
-import { ApiDataAccess, LanguagesAndVotes } from "./ApiDataAccess";
+import { apiDataAccess, LanguagesAndVotes } from "./ApiDataAccess";
 import { CompLanguageAndVotes } from "./components/CompLanguageAndVotes";
 
 import style from "./App.module.scss";
 
 export function AppV2() {
+  const refInput = React.createRef<HTMLInputElement>();
   const [languagesAndVotes, setLanguagesAndVotes] = useState<LanguagesAndVotes>(
     []
   );
 
   useEffect(() => {
-    ApiDataAccess.getLanguages().then((languagesAndVotes) =>
-      setLanguagesAndVotes(languagesAndVotes)
-    );
+    apiDataAccess
+      .getLanguages()
+      .then((languagesAndVotes) => setLanguagesAndVotes(languagesAndVotes));
   }, []);
 
   return (
@@ -22,14 +23,36 @@ export function AppV2() {
         Les meilleurs langages de programmations !
       </h1>
 
+      <div className={style.AddSection}>
+        <input className="input" ref={refInput} />
+        <button
+          className="button is-info"
+          onClick={() => {
+            const name = refInput.current!.value;
+            refInput.current!.value = "";
+            apiDataAccess.add(name).then(() => {
+              apiDataAccess
+                .getLanguages()
+                .then((languagesAndVotes) =>
+                  setLanguagesAndVotes(languagesAndVotes)
+                );
+            });
+          }}
+        >
+          Ajouter
+        </button>
+      </div>
+
       {languagesAndVotes.map((languageAndVotes) => (
         <CompLanguageAndVotes
           languageAndVotes={languageAndVotes}
           onVote={() => {
-            ApiDataAccess.vote(languageAndVotes.name).then(() => {
-              ApiDataAccess.getLanguages().then((languagesAndVotes) =>
-                setLanguagesAndVotes(languagesAndVotes)
-              );
+            apiDataAccess.vote(languageAndVotes.name).then(() => {
+              apiDataAccess
+                .getLanguages()
+                .then((languagesAndVotes) =>
+                  setLanguagesAndVotes(languagesAndVotes)
+                );
             });
           }}
           key={languageAndVotes.name}
