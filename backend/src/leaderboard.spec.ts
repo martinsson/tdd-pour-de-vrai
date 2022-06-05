@@ -1,20 +1,24 @@
 import {Express} from "express";
 import supertest from "supertest"
 import {configureApp, VoteResult} from "./leaderboard"
+import {MongoMemoryServer} from "mongodb-memory-server"
 
 describe('LeaderBoard', () => {
 
 
+
     let app: Express
     beforeEach(async () => {
-        app = configureApp()
+
+        const mongod = await MongoMemoryServer.create()
+
+        app = configureApp(mongod.getUri())
 
     });
 
     async function getAllVotes() {
         const response = await supertest(app).get('/votes').expect(200)
-        const languages = response.body
-        return languages
+        return response.body
     }
 
     describe('/votes - lists languages', () => {
@@ -38,8 +42,7 @@ describe('LeaderBoard', () => {
 
     async function voteFor(language: string) {
         const response = await supertest(app).put('/vote/' + language).expect(200)
-        const voteResult = response.body
-        return voteResult
+        return response.body
     }
 
     describe('/vote/:language - vote for a language', () => {
