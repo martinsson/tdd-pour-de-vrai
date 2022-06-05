@@ -14,13 +14,9 @@ export async function configureApp() {
 
 
     app.put('/reset', async (req, res) => {
-        try {
-            await votesCollection.drop()
-        } catch (e){
-            console.warn(e)
-        }
-        res.send()
-
+        votesCollection.drop()
+            .catch(console.log)
+            .finally(() => res.send())
     })
     app.get('/votes', async (req, res) => {
         const entries = await votesCollection.find().toArray()
