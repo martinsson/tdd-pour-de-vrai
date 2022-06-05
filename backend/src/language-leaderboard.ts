@@ -1,44 +1,24 @@
-import express, {json} from "express"
-import {MongoMemoryServer} from "mongodb-memory-server"
-import * as mongoDB from "mongodb";
+import express from "express"
+import {MongoVotesRepository} from "./mongo-votes-repository"
 
-export async function configureApp() {
+export async function configureApp(uri: string) {
+    const votesRepository = new MongoVotesRepository(uri)
+
     const app = express()
-
-    const mongod = await MongoMemoryServer.create()
-
-    const client = new mongoDB.MongoClient(mongod.getUri())
-    await client.connect()
-    const db = client.db('real-world-tdd')
-    const votesCollection = db.collection('votes')
-
-
     app.put('/reset', async (req, res) => {
-        votesCollection.drop()
-            .catch(console.log)
-            .finally(() => res.send())
+        votesRepository.clearAll()
+            .then(() => res.send())
     })
     app.get('/votes', async (req, res) => {
-        const entries = await votesCollection.find().toArray()
-        const votes = entries.map((e) => new VoteResult(e.name, e.votes))
-        res.send(votes)
+        res.send(await votesRepository.getAllVotes())
     })
 
     app.put('/votes/:language', async (req, res) => {
-        const language = req.params['language'] //?
-
-        const updateresult = await votesCollection.updateOne({name: language}, {$inc: {votes: 1}}, {upsert: true}) //?
-        const result = await votesCollection.findOne({name: language})
-
-        res.send(new VoteResult(result?.name, result?.votes))
+        const language = req.params['language']
+        const result = await votesRepository.voteFor(language)
+        res.send(result)
     })
 
     return app
 }
 
-export class VoteResult {
-    constructor(public readonly language: string, public readonly votes: number) {
-
-    }
-
-}
