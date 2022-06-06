@@ -50,8 +50,5 @@ class ApiDataAccessBackend {
   }
 }
 
-const IN_MEMORY = false;
-
-export const apiDataAccess = IN_MEMORY
-  ? new ApiDataAccessMemory()
-  : new ApiDataAccessBackend();
+export const apiDataAccessMemory = new ApiDataAccessMemory();
+export const apiDataAccessBackend = new ApiDataAccessBackend();

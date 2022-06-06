@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { apiDataAccess, LanguagesAndVotes } from "./ApiDataAccess";
+import { apiDataAccessBackend, LanguagesAndVotes } from "./ApiDataAccess";
 import { CompLanguageAndVotes } from "./components/CompLanguageAndVotes";
 
 import style from "./App.module.scss";
@@ -12,13 +12,17 @@ export function AppV2() {
   );
 
   useEffect(() => {
-    apiDataAccess
+    apiDataAccessBackend
       .getLanguages()
       .then((languagesAndVotes) => setLanguagesAndVotes(languagesAndVotes));
   }, []);
 
   return (
     <div className={style.App}>
+      <header>
+        <a href="/1">Version en mémoire</a> |
+        <a href="/2">Version avec Backend</a>
+      </header>
       <h1 className="title has-text-white mt-6">
         Les meilleurs langages de programmations !
       </h1>
@@ -30,8 +34,8 @@ export function AppV2() {
           onClick={() => {
             const name = refInput.current!.value;
             refInput.current!.value = "";
-            apiDataAccess.add(name).then(() => {
-              apiDataAccess
+            apiDataAccessBackend.add(name).then(() => {
+              apiDataAccessBackend
                 .getLanguages()
                 .then((languagesAndVotes) =>
                   setLanguagesAndVotes(languagesAndVotes)
@@ -47,8 +51,8 @@ export function AppV2() {
         <CompLanguageAndVotes
           languageAndVotes={languageAndVotes}
           onVote={() => {
-            apiDataAccess.vote(languageAndVotes.name).then(() => {
-              apiDataAccess
+            apiDataAccessBackend.vote(languageAndVotes.name).then(() => {
+              apiDataAccessBackend
                 .getLanguages()
                 .then((languagesAndVotes) =>
                   setLanguagesAndVotes(languagesAndVotes)
