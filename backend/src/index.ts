@@ -1,10 +1,11 @@
 // import { startApp } from "./language-leaderboard";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import { configureApp } from "./leaderboard";
 
 async function start() {
-  // const mongod = await MongoMemoryServer.create();
-  // // const app = await startApp(mongod);
-  // app.listen("3000");
+  const mongod = await MongoMemoryServer.create();
+  const app = await configureApp(mongod.getUri());
+  app.listen("3000");
 
   console.log(`
         go to http://localhost:3000
@@ -13,7 +14,7 @@ async function start() {
         PUT http://localhost:3000/vote/cobol
         
         to get all votes: 
-        GET http://localhost:3000
+        GET http://localhost:3000/votes
         
         `);
 }

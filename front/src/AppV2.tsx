@@ -47,7 +47,7 @@ export function AppV2() {
         <CompLanguageAndVotes
           languageAndVotes={languageAndVotes}
           onVote={() => {
-            apiDataAccess.vote(languageAndVotes.name).then(() => {
+            apiDataAccess.vote(languageAndVotes.language).then(() => {
               apiDataAccess
                 .getLanguages()
                 .then((languagesAndVotes) =>
@@ -55,7 +55,7 @@ export function AppV2() {
                 );
             });
           }}
-          key={languageAndVotes.name}
+          key={languageAndVotes.language}
         />
       ))}
     </div>

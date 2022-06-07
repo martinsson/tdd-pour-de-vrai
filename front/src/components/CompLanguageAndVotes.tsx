@@ -12,13 +12,13 @@ interface Props {
 }
 
 export function CompLanguageAndVotes({
-  languageAndVotes: { name, votes },
+  languageAndVotes: { language, votes },
   onVote,
 }: Props) {
   return (
     <div className={style.CompLanguageAndVotes}>
       <div className={style.Card}>
-        <div className={style.Name}>{name}</div>
+        <div className={style.Name}>{language}</div>
         <div className={style.Votes}>{votes}</div>
         <div className={style.Action}>
           <button

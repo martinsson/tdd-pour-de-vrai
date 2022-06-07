@@ -1,13 +1,13 @@
 export type LanguageAndVotes = {
-  name: string;
+  language: string;
   votes: number;
 };
 
 export type LanguagesAndVotes = LanguageAndVotes[];
 
 const languages: LanguagesAndVotes = [
-  { name: "java", votes: 3 },
-  { name: "js", votes: 15 },
+  { language: "java", votes: 3 },
+  { language: "js", votes: 15 },
 ];
 
 function clone(obj: any) {
@@ -20,21 +20,21 @@ class ApiDataAccessMemory {
   }
 
   vote(name: string) {
-    languages.find((language) => language.name === name)!.votes++;
+    languages.find((language) => language.language === name)!.votes++;
     return Promise.resolve();
   }
 
   add(name: string) {
-    languages.push({ name, votes: 0 });
+    languages.push({ language: name, votes: 0 });
     return Promise.resolve();
   }
 }
 
 class ApiDataAccessBackend {
   getLanguages(): Promise<LanguagesAndVotes> {
-    return fetch("http://localhost:3000")
+    return fetch("http://localhost:3000/votes")
       .then((response) => response.json())
-      .then((data) => data.languages);
+      .then((data) => data.votes);
   }
 
   vote(name: string) {
@@ -44,9 +44,7 @@ class ApiDataAccessBackend {
   }
 
   add(name: string) {
-    return fetch(`http://localhost:3000/add/${name}`, {
-      method: "POST",
-    });
+    return this.vote(name);
   }
 }
 

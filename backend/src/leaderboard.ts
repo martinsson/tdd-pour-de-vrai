@@ -1,50 +1,24 @@
-import express from "express"
-import {MongoClient} from "mongodb"
+import cors from "cors";
+import express from "express";
+import { VotesRepo } from "./votes.repo";
 
-class VotesRepository {
-    constructor(private mongodbUri: string) {
+export async function configureApp(uri: string) {
+  const app = express();
+  app.use(cors());
 
-    }
-    async getAllVotes() {
-        const collection = await this.getCollection()
-        const entries = await collection.find().toArray()
-        return entries.map((e) => new VoteResult(e.language, e.votes));
-    }
+  const votesRepo = new VotesRepo(uri);
+  app.get("/votes", async (req, res) => {
+    const result = await votesRepo.getAllVotes();
+    res.send({
+      votes: result,
+    });
+  });
 
-    private async getCollection() {
-        const client = await MongoClient.connect(this.mongodbUri)
-        return client.db('real-world-tdd').collection('votes')
-    }
+  app.put("/vote/:language", async (req, res) => {
+    const language = req.params["language"];
 
-    async voteFor(language: string) {
-        const collection = await this.getCollection()
-        await collection.updateOne({language}, {$inc: {votes: 1}}, {upsert: true})
-        const votesForLanguage = (await collection.findOne({language}))
-        // @ts-ignore
-        return new VoteResult(votesForLanguage.language, votesForLanguage.votes);
-    }
-}
-
-export function configureApp(mongodbUri: string) {
-    const app = express()
-
-    const votesRepository = new VotesRepository(mongodbUri)
-    app.get('/votes', async (req, res) => {
-
-        res.send(await votesRepository.getAllVotes())
-    })
-
-    app.put('/vote/:language', async (req, res) => {
-        const language = req.params['language']
-
-        res.send(await votesRepository.voteFor(language))
-    })
-    return app
-}
-
-export class VoteResult {
-    constructor(public readonly language: string, public readonly votes: number) {
-
-    }
-
+    const newVotesNumber = await votesRepo.voteFor(language);
+    res.send({ votes: newVotesNumber, language });
+  });
+  return app;
 }
